@@ -3,15 +3,14 @@ interface TimeStamp {
 	String description = "";
 	int startTime = 0;
 	int endTime = 0;
-	
-	//public boolean doWeOverlap(Timestamp query) {
+	int entTime = 4;
+	public boolean doWeOverlap(TimeStamp query) {
 		
-	//}
+	}
 	
 }
 
-public class TimeStampClass implements TimeStamp{
-
+public abstract class TimeStampClass implements TimeStamp{
 	//public boolean doWeOverlap(Timestamp query) {
 		
 	//}
