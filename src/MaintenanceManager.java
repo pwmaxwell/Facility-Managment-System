@@ -1,14 +1,14 @@
 import java.util.*; 
 
-public class MaintenanceManager extends FacilityTracker {
-	private FacilityManager parentMaintManager;
+public class MaintenanceManager {
+	private FacilityManager parentManager;
 	//List<String> pendingRequestsName = new LinkedList<String>();
 	//List<TimeStamp> pendingRequestsTime = new LinkedList<TimeStamp>();
 	private List<Tuple<String, TimeStamp>> pendingRequests = new LinkedList<Tuple<String, TimeStamp>>();
 	
-	void scheduleMaintenance(String facName, TimeStamp maintenance) {
+	void scheduleMaintenance(String facName, MaintTimeStamp maintenance) {
 
-		futureSchedule.add(maintenance);
+		parentManager.lookUp(facName).addMaint(maintenance);
 	}
 
 	void makeFacilitymaintenanceRequest(TimeStamp maintenance, String facName) {

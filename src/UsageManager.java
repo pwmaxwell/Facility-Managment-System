@@ -1,20 +1,10 @@
 import java.util.*;
-public abstract class UsageManager extends FacilityTracker{
+public abstract class UsageManager{
 	FacilityManager parentManager;
-	boolean assignFacilityToUse(String facName, TimeStamp user) { 
-		parentManager.directory.get(facName).futureSchedule.add(user);
-		return true;
+	boolean assignFacilityToUse(String facName, TimeStamp use) {
+		return parentManager.lookUp(facName).addUsage(use);
 	}
-	boolean vacateFacility(String facName, TimeStamp vacateTime) {	
-		if (vacateTime.startTime.compareTo(vacateTime.startTime) >= 0) {
-			if (directory.get(facName).endTime.compareTo(vacateTime.endTime)<= 0) {
-				directory.remove(facName);
-			}	
-		}
-		return true;
+	void vacateFacility(String facName, TimeStamp vacateTime) {
+		parentManager.lookUp(facName).vacateTime(vacateTime);
 	}
-	boolean assignFacilityToUse(String facName, TimeStamp usage) {
-		return true;
-	}
-	boolean vacateFacility(String facName, TimeStamp vacateTime) { return true; }
 }

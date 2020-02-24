@@ -30,7 +30,7 @@ public abstract class FacilityManager extends Facility{
 
 	public void addFacilityDetail(String facName, String detail) { //adds detail to a facility
 		Facility FacilityName = directory.get(facName);
-		FacilityName.details.add(detail);
+		FacilityName.getDetails().add(detail);
 	}
 	
 }

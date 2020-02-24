@@ -1,10 +1,10 @@
 import java.util.*;
 
-public abstract class Facility implements TimeStamp{
+public abstract class Facility{
 	private List<String> details = new ArrayList<String>();
 	private List<String> problemHistory = new ArrayList<String>();
-	private List<TimeStamp> useHistory = new ArrayList<TimeStamp>();
-	private List<TimeStamp> maintHistory = new ArrayList<TimeStamp>();
+	private List<UsageTimeStamp> useHistory = new ArrayList<UsageTimeStamp>();
+	private List<MaintTimeStamp> maintHistory = new ArrayList<MaintTimeStamp>();
 	private List<TimeStamp> futureSchedule = new ArrayList<TimeStamp>();
 	private List<String> Inspections = new ArrayList<String>();
 	private int capacity;
@@ -13,7 +13,7 @@ public abstract class Facility implements TimeStamp{
 	
 	public int getProblemRate() { // This will calculate the rate of problems based on the timeframe of the facility
 		int numberOfProblems = problemHistory.size(); 
-		int timeFrame = startTime.compareTo(currentDate);
+		int timeFrame = startDate.compareTo(currentDate);
 		int problemRate = numberOfProblems / timeFrame;
 		return problemRate;
 		
@@ -30,8 +30,13 @@ public abstract class Facility implements TimeStamp{
 		return DownTime;
 	}
 
-	public double getMaintCost(TimeStamp currentMaintStamp) { //returns the maintainance cost in USD of the current TimeStamp
-		return maintHistory.get(1).costUSD;
+	public double getMaintCost() { //returns the total maintenance cost in USD of the facility over time
+	    double cost = 0;
+		for(MaintTimeStamp maint : maintHistory){
+		    cost += maint.getCostUSD();
+        }
+
+	    return cost;
 	}
 
 	public List<String> getProblems(){ //returns the problem history list
@@ -43,18 +48,30 @@ public abstract class Facility implements TimeStamp{
 			if (futureSchedule.get(i).endTime.before(currentDate) == true) {
 				TimeStamp pastDateHistory = futureSchedule.get(i);
 				futureSchedule.remove(i);
-				useHistory.add(pastDateHistory);
+				if(pastDateHistory instanceof UsageTimeStamp){
+				    useHistory.add((UsageTimeStamp) pastDateHistory);
+                } else if(pastDateHistory instanceof MaintTimeStamp){
+                    maintHistory.add((MaintTimeStamp) pastDateHistory);
+                } else {
+				    System.out.print("TimeStamp Type not recognized.");
+                }
 			}
 		}
 	}
 
-	public void addUsage(TimeStamp activity) { //adds a TimeStamp to the futureSchudule
-		futureSchedule.add(activity);
+	public boolean addUsage(TimeStamp activity) { //adds a TimeStamp to the futureSchudule
+	    for(TimeStamp stamp : futureSchedule){
+		    if(stamp.doWeOverlap(activity)){
+		        return false;
+            }
+        }
+        futureSchedule.add(activity);
+		return true;
 	}
 
 	public void vacateTime(TimeStamp clearingTime) { // removes an event from futureSchedule if the event is during clearingTime
 		for(int i = 0; i < futureSchedule.size(); i++) {
-			if (TimeStamp.startTime.compareTo(TimeStamp.startTime) >= 0) {
+			if (clearingTime.getStartTime().compareTo(startDate) >= 0) {
 				if (futureSchedule.get(i).endTime.compareTo(clearingTime.endTime)<= 0) {
 					futureSchedule.remove(i);
 				}
@@ -65,8 +82,8 @@ public abstract class Facility implements TimeStamp{
 	public int getUsageRate() { // finds the rate someone has used the facility compared to the time since its initial opening
 		int timeSinceBuildingOpen = startDate.compareTo(currentDate);
 		int totalUsageTime = 0;
-		for(int i = 0; i < futureSchedule.size(); i++) {
-			int UsageTime = startTime.compareTo(endTime);
+		for(UsageTimeStamp use : useHistory) {
+			int UsageTime = use.getStartTime().compareTo(use.getEndTime());
 			totalUsageTime += UsageTime;
 		}
 		int usageRate = totalUsageTime / timeSinceBuildingOpen;
@@ -81,13 +98,18 @@ public abstract class Facility implements TimeStamp{
 		return Inspections;
 	}
 
-	public List<TimeStamp> getMaintHistory(){ //returns maintHistory
+	public List<MaintTimeStamp> getMaintHistory(){ //returns maintHistory
 		return maintHistory;
 	}
 
-	public void addMaint(TimeStamp maint) { //adds an TimeStamp to maintHistory
+	public void addMaint(MaintTimeStamp maint) { //adds an TimeStamp to maintHistory
 		maintHistory.add(maint);
+		vacateTime(maint);
 	}
+
+	public List<String> getDetails(){
+	    return details;
+    }
 
 	public int getCapacity(){ return capacity; }
 }

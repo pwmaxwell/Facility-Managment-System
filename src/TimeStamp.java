@@ -8,20 +8,26 @@ interface TimeStamp {
 }
 */
 public abstract class TimeStamp {
-	private String description = "";
-	private Date startTime;
-	private Date endTime;
+	protected String description;
+	protected Date startTime;
+	protected Date endTime;
 
 	public boolean doWeOverlap(TimeStamp query) {
-		if(startTime.before(query) && !endTime.before(query)){
+		if(startTime.before(query.getStartTime()) && !endTime.before(query.getStartTime())){
 			return true;
 		}
 		return false;
 	}
 
-	String getDescription(){
+	public String getDescription(){
 		return  description;
 	}
 
-	
+	public Date getStartTime(){
+		return startTime;
+	}
+
+	public Date getEndTime(){
+		return endTime;
+	}
 }

@@ -7,51 +7,36 @@ public abstract class FacilityTracker extends FacilityManager{
 	}
 
 	List<String> listFacilityProblems(String facName){ // lists all problems located in the facName
-		List<String> facProblems = new LinkedList<String>(parentManager.lookUp(facName).getProblems());
-		return facProblems;
+		return parentManager.lookUp(facName).getProblems();
 	}
 	
-	List<TimeStamp> listMaint(String facName){ //lists all maintainance in the facName
-		List<TimeStamp> facMaint = new  LinkedList<TimeStamp>(parentManager.lookUp(facName).getMaintHistory());
-		return facMaint;
+	List<MaintTimeStamp> listMaint(String facName){ //lists all maintainance in the facName
+		return parentManager.lookUp(facName).getMaintHistory();
 	}
 	
 	List<String> listInspections(String facName){ //lists all inspections in the facName
-		List<String> facInspections = new LinkedList<String>(parentManager.lookUp(facName).getInspections());
-		return facInspections;
+		return parentManager.lookUp(facName).getInspections();
 	}
 	
-	String getFacilityInformation(String facName) { //lists all information for facName
-		String facInformation = parentManager.lookUp(facName).description;
-		return facInformation;
+	List<String> getFacilityInformation(String facName) { //lists all information for facName
+		return parentManager.lookUp(facName).getDetails();
 	}
 	
 	int getAvailableCapacity(String facName){ //returns the amount of available space left in a facility
-		int availableCapacity = parentManager.lookUp(facName).getCapacity();
-		return availableCapacity;
+		return parentManager.lookUp(facName).getCapacity();
+
 		
 	}
 	
 	double calcMaintCostForFacility(String facName) { //calculates the cost of each maintainance
-		double costForFacility = parentManager.lookUp(facName).costUSD;
-		return costForFacility;
+		return parentManager.lookUp(facName).getMaintCost();
 	}
 	
 	float calcProblemRateForFacility(String facName) {  // calculates the problem rate per facility
-		int numberOfProblems = problemHistory.size();
-		int timeFrame = startTime.compareTo(currentDate);
-		int problemRate = numberOfProblems / timeFrame;
-		return problemRate;
+		return parentManager.lookUp(facName).getProblemRate();
 	}
 	
 	float calcDownTimeForFacility(String facName) { //calculates the downtime per facility
-		int timeSinceBuildingOpen = startDate.compareTo(currentDate);
-		int totalDownTime = 0;
-		for(int i = 0; i < futureSchedule.size(); i++) {
-			int DownTime = futureSchedule.get(i).startTime.compareTo(futureSchedule.get(i).endTime);
-			totalDownTime += DownTime;
-		}
-		int DownTime = timeSinceBuildingOpen - totalDownTime;
-		return DownTime;
+		return parentManager.lookUp(facName).getDownTime();
 	}
 }
