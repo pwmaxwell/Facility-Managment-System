@@ -1,5 +1,12 @@
-package tests;
+package tests.mainTest;
 import src.*;
+
+/*
+ * This is not our primary testing means and is only used to test using print statment if that is prefered. 
+ * JUnit testing is stored in tests.tests.facilityTest.java
+ */
+
+
 public class mainTest {
 	
 	public void testName() { //tests addFacility() and lookUp()
