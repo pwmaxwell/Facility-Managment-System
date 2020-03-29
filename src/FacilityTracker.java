@@ -1,42 +1,42 @@
 import java.util.*;
-public abstract class FacilityTracker extends FacilityManager{
-	private FacilityManager parentManager;
+public class FacilityTracker{
+	private Map<String, Facilities> facilityDirectory;
+	private ScheduleManager scheduleModule;
+	private UsageManager usageModule;
+	private MaintenanceManager maintModule;
 
-	public FacilityTracker(FacilityManager parent){
-		parentManager = parent;
+	public List<String> listFacilityProblems(String facName){
+		return lookUp(facName).getProblems();
 	}
 
-	List<String> listFacilityProblems(String facName){ // lists all problems located in the facName
-		return parentManager.lookUp(facName).getProblems();
+	public List<String> listInspections(String facName){
+		return lookUp(facName).getInspections();
 	}
-	
-	List<MaintTimeStamp> listMaint(String facName){ //lists all maintainance in the facName
-		return parentManager.lookUp(facName).getMaintHistory();
-	}
-	
-	List<String> listInspections(String facName){ //lists all inspections in the facName
-		return parentManager.lookUp(facName).getInspections();
-	}
-	
-	List<String> getFacilityInformation(String facName) { //lists all information for facName
-		return parentManager.lookUp(facName).getDetails();
-	}
-	
-	int getAvailableCapacity(String facName){ //returns the amount of available space left in a facility
-		return parentManager.lookUp(facName).getCapacity();
 
-		
+	public List<String> getFacilityInformation(String facName){
+		return lookUp(facName).getDetails();
 	}
-	
-	double calcMaintCostForFacility(String facName) { //calculates the cost of each maintainance
-		return parentManager.lookUp(facName).getMaintCost();
+
+	public int getAvailableCapacity(String facName){
+		return lookUp(facName).getCapacity();
 	}
-	
-	float calcProblemRateForFacility(String facName) {  // calculates the problem rate per facility
-		return parentManager.lookUp(facName).getProblemRate();
+
+	public float calcProblemRateForFacility(String facName){
+		return lookUp(facName).getProblemRate();
 	}
-	
-	float calcDownTimeForFacility(String facName) { //calculates the downtime per facility
-		return parentManager.lookUp(facName).getDownTime();
+
+	public void addFacilityDetail(String facName, String newDetail){
+		lookUp(facName).getDetails().add(newDetail);
+	}
+
+	public void addFacility(Facilities newFac){
+		facilityDirectory.put(newFac.getName(), newFac);
+		scheduleModule.updateFacilities(newFac);
+		usageModule.updateFacilities(newFac);
+		maintModule.updateFacilities(newFac);
+	}
+
+	public Facilities lookUp(String facName){
+		return facilityDirectory.get(facName);
 	}
 }

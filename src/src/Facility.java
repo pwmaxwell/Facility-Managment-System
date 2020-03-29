@@ -79,15 +79,7 @@ public class Facility{
 		return time;
 	}
 
-	public void vacateTime(TimeStamp clearingTime) { // removes an event from futureSchedule if the event is during clearingTime
-		for(int i = 0; i < futureSchedule.size(); i++) {
-			if (clearingTime.getStartTime().compareTo(startDate) >= 0) {
-				if (futureSchedule.get(i).endTime.compareTo(clearingTime.endTime)<= 0) {
-					futureSchedule.remove(i);
-				}
-			}
-		}
-	}
+
 
 	public int getUsageRate() { // finds the rate someone has used the facility compared to the time since its initial opening
 		int timeSinceBuildingOpen = startDate.compareTo(currentDate);
@@ -110,11 +102,6 @@ public class Facility{
 
 	public List<MaintTimeStamp> getMaintHistory(){ //returns maintHistory
 		return maintHistory;
-	}
-
-	public void addMaint(MaintTimeStamp maint) { //adds an TimeStamp to maintHistory
-		maintHistory.add(maint);
-		vacateTime(maint);
 	}
 
 	public List<String> getDetails(){
