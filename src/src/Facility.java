@@ -10,7 +10,7 @@ public class Facility{
 	private List<String> Inspections = new ArrayList<String>();
 	private int capacity;
 	private Date startDate = new Date();
-	private Date currentDate = new Date();
+	private Date currentDate;
 	
 	public int getProblemRate() { // This will calculate the rate of problems based on the timeframe of the facility
 		int numberOfProblems = problemHistory.size(); 
@@ -22,8 +22,10 @@ public class Facility{
 	public void addProblem(String problem) {
 		problemHistory.add(problem);
 	}
+	
 
 	public int getDownTime() { //prints out the amount of time the building was not used while it was open
+		currentDate = new Date(); // automatically sets date to current date
 		int timeSinceBuildingOpen = startDate.compareTo(currentDate);
 		int totalDownTime = 0;
 		for(int i = 0; i < futureSchedule.size(); i++) {
@@ -102,6 +104,10 @@ public class Facility{
 
 	public List<TimeStamp> getSchedule(){ //returns futureSchedule
 		return futureSchedule;
+	}
+	
+	public void addInspection(String inspec) {
+		Inspections.add(inspec);
 	}
 
 	public List<String> getInspections(){// returns Inspections

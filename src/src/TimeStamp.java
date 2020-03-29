@@ -24,7 +24,7 @@ public class TimeStamp {
 	public String getDescription(){
 		return  description;
 	}
-
+	
 	public Date getStartTime(){
 		return startTime;
 	}

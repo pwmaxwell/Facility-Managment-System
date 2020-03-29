@@ -7,13 +7,6 @@ import src.*;
 
 class facilityTest {
 
-	@Test
-	void testName() { // This will test if addFacility() and lookUp() works
-		Facility fac = new Facility();
-		FacilityManager man = new FacilityManager();
-		man.addFacility("testFac", fac);
-		assertSame(fac, man.lookUp("testFac"));
-	}
 
 	@Test
 	void addTime() { // This will test addUsage
@@ -25,7 +18,7 @@ class facilityTest {
 	}
 	
 	@Test
-	void addProblem() { // This will test addProblem
+	void addProblem() { // This will test addProblem and getProblems()
 		Facility fac = new Facility();
 		String prob = "This is a problem";
 		fac.addProblem(prob);
@@ -55,4 +48,56 @@ class facilityTest {
 		man.removeFacility("testFac1", fac1);
 		assertEquals(man.listFacilities().contains("testFac1"), false);
 	}
+	
+	@Test
+	void maintCostTest() { // This will test MaintTimeStamp and addMaint()
+		Facility fac = new Facility();
+		MaintTimeStamp maintTime = new MaintTimeStamp(null, null, null, 500);
+		System.out.println(fac.getMaintHistory());
+		fac.addMaint(maintTime);
+		System.out.println(fac.getMaintHistory());
+		assertEquals(fac.getMaintCost(), 500.00);
+	}
+	
+	@Test
+	void getSchedule() { // This will test getSchedule()
+		Facility fac = new Facility();
+		TimeStamp time = new TimeStamp();
+		fac.addUsage(time);
+		assertSame(fac.getSchedule().contains(time), true);
+	}
+	
+	@Test
+	void getMaintHistory() { // This will test getMaintHistory()
+		Facility fac = new Facility();
+		MaintTimeStamp maintTime = new MaintTimeStamp(null,null, null, 0);
+		fac.addMaint(maintTime);
+		assertSame(fac.getMaintHistory().contains(maintTime), true);
+	}
+	
+	@Test
+	void getDetails() { //This will test getDetails() and addFacilityDetails()
+		Facility fac = new Facility();
+		FacilityManager man = new FacilityManager();
+		man.addFacility("fac1", fac);
+		man.addFacilityDetail("fac1", "This is a detail");
+		assertEquals(fac.getDetails().contains("This is a detail"), true);
+	}
+	
+	@Test
+	void getInspections() { //This will test addInspection() and getInspections()
+		Facility fac = new Facility();
+		fac.addInspection("This is an inspection");
+		assertEquals(fac.getInspections().contains("This is an inspection"), true);
+	}
+	
+	/*
+	 * Needs testing:
+	 * 	Facility:
+	 * 		getProblemRate()
+	 * 		getUsageRate()
+	 * 		getDownTime()
+	 * 		update()
+	 * 		vacateTime()
+	 */
 }
