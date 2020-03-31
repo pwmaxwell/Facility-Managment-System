@@ -9,7 +9,16 @@ public abstract class Facilities {
 	private Date startDate = new Date();
 	private Date currentDate = new Date();
 	private String name;
-	
+
+	public Facilities(List<String> details, List<String> problemHistory, List<String> inspections, int capacity, Date startDate, String name) {
+		this.details = details;
+		this.problemHistory = problemHistory;
+		Inspections = inspections;
+		this.capacity = capacity;
+		this.startDate = startDate;
+		this.name = name;
+	}
+
 	public int getProblemRate() { // This will calculate the rate of problems based on the timeframe of the facility
 		int numberOfProblems = problemHistory.size(); 
 		int timeFrame = startDate.compareTo(currentDate);

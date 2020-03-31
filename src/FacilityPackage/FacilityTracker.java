@@ -8,6 +8,13 @@ public class FacilityTracker{
 	private UsageManager usageModule;
 	private MaintenanceManager maintModule;
 
+	public FacilityTracker(Map<String, Facilities> facilityDirectory, ScheduleManager scheduleModule, UsageManager usageModule, MaintenanceManager maintModule) {
+		this.facilityDirectory = facilityDirectory;
+		this.scheduleModule = scheduleModule;
+		this.usageModule = usageModule;
+		this.maintModule = maintModule;
+	}
+
 	public List<String> listFacilityProblems(String facName){
 		return lookUp(facName).getProblems();
 	}

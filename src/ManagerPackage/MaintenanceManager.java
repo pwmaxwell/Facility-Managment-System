@@ -10,6 +10,14 @@ public class MaintenanceManager {
 	private ScheduleManager schedule;
 	private FacilityTracker tracker;
 
+	public MaintenanceManager(List<Tuple<String, TimeStamp>> pendingRequests, Map<String, List<MaintTimeStamp>> maintDirectory, Map<String, List<MaintTimeStamp>> maintHistoryDirectory, ScheduleManager schedule, FacilityTracker tracker) {
+		this.pendingRequests = pendingRequests;
+		this.maintDirectory = maintDirectory;
+		this.maintHistoryDirectory = maintHistoryDirectory;
+		this.schedule = schedule;
+		this.tracker = tracker;
+	}
+
 	void scheduleMaintenance(String facName, MaintTimeStamp maintenance) {
 		maintDirectory.get(facName).add(maintenance);
 	}

@@ -13,6 +13,13 @@ public class ScheduleManager {
         return currentDate;
     }
 
+    public ScheduleManager(Map<String, List<TimeStamp>> facilityDirectory, UsageManager useMan, MaintenanceManager mainMan, FacilityTracker tracker) {
+        this.facilityDirectory = facilityDirectory;
+        this.useMan = useMan;
+        this.mainMan = mainMan;
+        this.tracker = tracker;
+    }
+
     public List<TimeStamp> getSchedule(String facName){
         return facilityDirectory.get(facName);
     }

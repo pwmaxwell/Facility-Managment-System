@@ -10,6 +10,13 @@ public class UsageManager{
 	FacilityTracker tracker;
 	ScheduleManager scheduler;
 
+	public UsageManager(Map<String, List<UsageTimeStamp>> usageDirectory, Map<String, List<UsageTimeStamp>> usageHistoryDirectory, FacilityTracker tracker, ScheduleManager scheduler) {
+		this.usageDirectory = usageDirectory;
+		this.usageHistoryDirectory = usageHistoryDirectory;
+		this.tracker = tracker;
+		this.scheduler = scheduler;
+	}
+
 	boolean assignFacilityToUse(String facName, UsageTimeStamp use) {
 		if(!scheduler.isInUseDuringInterval(facName, use)){
 			usageDirectory.get(facName).add(use);
