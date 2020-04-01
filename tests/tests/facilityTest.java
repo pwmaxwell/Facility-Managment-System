@@ -1,6 +1,8 @@
 package tests;
-
+//These tests are all covered in FacilityTrackerTest. Delete
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import FacilityPackage.*;
@@ -8,102 +10,61 @@ import ManagerPackage.*;
 import TimeStamps.*;
 
 class facilityTest {
-
-
-	/*@Test
-	void addTime() { // This will test addUsage
-		Facilities fac = new Facilities();
-		FacilityTracker fact = new FacilityTracker();
-		UsageManager man = new UsageManager();
-		UsageTimeStamp time = new UsageTimeStamp(null, null, "desc");
-	//	fact.addFacility(fac);
-		//man.assignFacilityToUse("fac1", time);
-		System.out.println(man.listActualUsage("fac")); //terminates before this line
-		//assertEquals(fac.getUsage(time), time);
+	@Test
+	void testCapacity() {
+		Facilities fac = new Facilities(null, null, null, 150, null, "fac1");
+		assertEquals(fac.getCapacity(),150);
 	}
 	
 	@Test
-	void addProblem() { // This will test addProblem and getProblems()
-		Facilities fac = new Facilities();
+	void testProblem() { // This will test addProblem and getProblems()
+		List<String> problems = new ArrayList<String>();
+		Facilities fac = new Facilities(null, problems, null, 0, null, null);
 		String prob = "This is a problem";
-		//fac.addProblem(prob); 
+		fac.addProblem(prob); 
 		assertEquals(fac.getProblems().contains("This is a problem"), true);
 	}
-	
+
 	@Test
-	void addCapacity() { // This will test addCapacity
-		Facilities fac = new Facilities();
-		fac.addCapacity(150);
-		assertEquals(fac.getCapacity(), 150);
+	void testDetails() {
+		List<String> details = new ArrayList<String>();
+		Facilities fac = new Facilities(details, null, null, 0, null, null);
+		String det = "This is a detail";
+		fac.addDetail(det);
+		assertEquals(fac.getDetails().contains(det), true);
 	}
 	
 	@Test
-	void facManagerTest() { // This will test addFacility and removeFacility
-		Facility fac1 = new Facility();
-		Facility fac2 = new Facility();
-		Facility fac3 = new Facility();
-		FacilityManager man = new FacilityManager();
-		man.addFacility("testFac1", fac1);
-		man.addFacility("testFac2", fac2);
-		man.addFacility("testFac3", fac3);
-		assertEquals(man.listFacilities().contains("testFac1"), true);
-		assertEquals(man.listFacilities().contains("testFac2"), true);
-		assertEquals(man.listFacilities().contains("testFac3"), true);
-		
-		man.removeFacility("testFac1", fac1);
-		assertEquals(man.listFacilities().contains("testFac1"), false);
+	void testInspections() {
+		List<String> inspections = new ArrayList<String>();
+		Facilities fac = new Facilities(null, null, inspections, 0, null, null);
+		String ins = "This is an inspection";
+		fac.addInspection(ins);
+		assertEquals(fac.getInspections().contains(ins), true);
 	}
 	
 	@Test
-	void maintCostTest() { // This will test MaintTimeStamp and addMaint()
-		Facility fac = new Facility();
-		MaintTimeStamp maintTime = new MaintTimeStamp(null, null, null, 500);
-		System.out.println(fac.getMaintHistory());
-		fac.addMaint(maintTime);
-		System.out.println(fac.getMaintHistory());
-		assertEquals(fac.getMaintCost(), 500.00);
+	void testStart() {
+		Date start = new Date();
+		Facilities fac = new Facilities(null, null, null, 0, start, null);
+		assertEquals(fac.getStart(), start);
 	}
 	
 	@Test
-	void getSchedule() { // This will test getSchedule()
-		Facility fac = new Facility();
-		TimeStamp time = new TimeStamp();
-		fac.addUsage(time);
-		assertSame(fac.getSchedule().contains(time), true);
+	void testProblemRate() { // Since this looks at a dynamic time the MONTH must be changed to 4 if worked on after 4/15/2020
+		Calendar startCal = Calendar.getInstance();
+		startCal.set(Calendar.MONTH, 3);
+		startCal.set(Calendar.DATE, 15);
+		startCal.set(Calendar.HOUR, 4);
+		startCal.set(Calendar.MINUTE, 0);
+		Date start = startCal.getTime();
+		List<String> problems = new ArrayList<String>();
+		Facilities fac = new Facilities(null,problems, null, 0, start, null);
+		String prob = "This is a problem";
+		fac.addProblem(prob); //adding 2 problems
+		fac.addProblem(prob);
+		assertEquals(fac.getProblemRate(), 2); // 2 problems per month
 	}
-	
-	@Test
-	void getMaintHistory() { // This will test getMaintHistory()
-		Facility fac = new Facility();
-		MaintTimeStamp maintTime = new MaintTimeStamp(null,null, null, 0);
-		fac.addMaint(maintTime);
-		assertSame(fac.getMaintHistory().contains(maintTime), true);
-	}
-	
-	@Test
-	void getDetails() { //This will test getDetails() and addFacilityDetails()
-		Facility fac = new Facility();
-		FacilityManager man = new FacilityManager();
-		man.addFacility("fac1", fac);
-		man.addFacilityDetail("fac1", "This is a detail");
-		assertEquals(fac.getDetails().contains("This is a detail"), true);
-	}
-	
-	@Test
-	void getInspections() { //This will test addInspection() and getInspections()
-		Facility fac = new Facility();
-		fac.addInspection("This is an inspection");
-		assertEquals(fac.getInspections().contains("This is an inspection"), true);
-	}
-	
-	/*
-	 * Needs testing:
-	 * 	Facility:
-	 * 		getProblemRate()
-	 * 		getUsageRate()
-	 * 		getDownTime()
-	 * 		update()
-	 * 		vacateTime()
-	 */
+
 	
 }

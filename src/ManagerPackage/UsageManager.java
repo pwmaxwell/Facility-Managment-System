@@ -17,14 +17,14 @@ public class UsageManager{
 		this.scheduler = scheduler;
 	}
 
-	boolean assignFacilityToUse(String facName, UsageTimeStamp use) {
+	public boolean assignFacilityToUse(String facName, UsageTimeStamp use) {
 		if(!scheduler.isInUseDuringInterval(facName, use)){
 			usageDirectory.get(facName).add(use);
 			return true;
 		}
 		return false;
 	}
-	List<UsageTimeStamp> listActualUsage(String facName){
+	public List<UsageTimeStamp> listActualUsage(String facName){
 		return usageDirectory.get(facName);
 	}
 

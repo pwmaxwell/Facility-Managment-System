@@ -3,7 +3,7 @@ import java.util.*;
 import ManagerPackage.*;
 import FacilityPackage.*;
 public class FacilityTracker{
-	private Map<String, Facilities> facilityDirectory;
+	private Map<String, Facilities> facilityDirectory = new HashMap<String, Facilities>();
 	private ScheduleManager scheduleModule;
 	private UsageManager usageModule;
 	private MaintenanceManager maintModule;

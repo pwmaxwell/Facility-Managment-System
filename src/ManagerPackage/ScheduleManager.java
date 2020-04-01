@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ScheduleManager {
     private Map<String, List<TimeStamp>> facilityDirectory;
-    private Date currentDate;
+    private Date currentDate = new Date();
     private UsageManager useMan;
     private MaintenanceManager mainMan;
     private FacilityTracker tracker;
@@ -48,7 +48,7 @@ public class ScheduleManager {
         useMan.update(currentDate);
         mainMan.update(currentDate);
     }
-
+    
     public void updateFacilities(Facilities newFac){
         facilityDirectory.put(newFac.getName(), new LinkedList<TimeStamp>());
     }

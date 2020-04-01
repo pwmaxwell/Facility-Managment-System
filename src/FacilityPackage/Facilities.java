@@ -1,7 +1,7 @@
 package FacilityPackage;
 import java.util.*;
 
-public abstract class Facilities {
+public class Facilities {
 	private List<String> details = new ArrayList<String>();
 	private List<String> problemHistory = new ArrayList<String>();
 	private List<String> Inspections = new ArrayList<String>();
@@ -47,5 +47,17 @@ public abstract class Facilities {
 
 	public String getName(){
 		return name;
+	}
+	
+	public void addDetail(String detail) { 
+		details.add(detail);			    
+	}
+	
+	public void addProblem(String problem) {
+		problemHistory.add(problem);
+	}
+	
+	public void addInspection(String inspection) {
+		Inspections.add(inspection);
 	}
 }
